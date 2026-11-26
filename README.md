@@ -39,6 +39,24 @@ en `functions/_catalog.js` y en `public/index.html`.
 3. Cuando Cloudflare marque el dominio como activo: proyecto de Pages >
    Custom domains > agregar `engazaurio.com` y `www.engazaurio.com`.
 
+## Protección contra bots
+Ya incluido en el código: campo oculto (honeypot), máximo 10 unidades por pedido y
+máximo 3 pedidos por teléfono por hora (`MAX_ORDERS_PER_PHONE` en
+`functions/api/orders.js`; si se pasa, responde 429).
+
+Cloudflare Turnstile (verificación "no soy robot", casi siempre invisible). Se activa
+solo cuando existen las dos variables; sin ellas la tienda funciona igual que antes.
+1. Cloudflare > Turnstile > Add widget. Hostnames: `engazaurio-store.pages.dev`,
+   `engazaurio.com`, `www.engazaurio.com`. Widget mode: Managed.
+2. Pages > Settings > Variables and Secrets (Production):
+   - `TURNSTILE_SITE_KEY` = Site Key (tipo "Text")
+   - `TURNSTILE_SECRET_KEY` = Secret Key (tipo "Secret")
+3. Deployments > Retry deployment.
+
+Cuando el dominio esté en Cloudflare, agregar también una regla en Security > WAF >
+Rate limiting rules: URI Path igual a `/api/orders`, por ejemplo 5 solicitudes por
+minuto por IP, acción Block.
+
 ## Productos
 El precio y el stock vienen del CRM. Cada producto de `functions/_catalog.js` se
 busca por `code` (si se llena) o por nombre. Para agregar un juguete: subir su

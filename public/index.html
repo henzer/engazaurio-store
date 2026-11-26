@@ -98,6 +98,8 @@ footer a{color:var(--yellow)}
 .qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-weight:800}
 .empty{color:var(--muted);text-align:center;padding:40px 0}
 .totals{padding:16px 20px;border-top:1px solid var(--line)}
+.totals:has(#totals:empty){display:none}
+.ts{margin-top:10px;min-height:65px}
 .row{display:flex;justify-content:space-between;margin:4px 0}
 .row.disc{color:var(--yellow);font-weight:600}
 .row.tot{font-family:Anton,Impact,sans-serif;font-size:1.6rem;margin-top:8px}
@@ -185,7 +187,12 @@ footer a{color:var(--yellow)}
   <aside class="drawer" aria-label="Carrito">
     <header><h3>Tu pedido</h3><button class="x" onclick="toggleCart(false)" aria-label="Cerrar">×</button></header>
     <div class="items" id="items"></div>
-    <div class="totals" id="totals"></div>
+    <div class="totals">
+      <div id="totals"></div>
+      <!-- Turnstile widget lives outside the re-rendered HTML so it is not reset on every render -->
+      <div id="turnstile-box" class="ts" hidden></div>
+      <div id="submit-area"></div>
+    </div>
   </aside>
 </div>
 
@@ -215,6 +222,7 @@ const save = () => { try { localStorage.setItem("engazaurio-cart", JSON.stringif
 const waLink = txt => "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(txt);
 let customer = {name:"", phone:"", address:""};
 let sending = false, error = "";
+let turnstileId = null;   // Turnstile widget id, only when the server has a site key
 
 function renderGrid(){
   $("grid").innerHTML = PRODUCTS.map(p => {
@@ -271,14 +279,16 @@ function renderCart(){
     ${t.discount ? `<div class="row disc"><span>Black Friday (2do a mitad)</span><span>−${money(t.discount)}</span></div>`:""}
     <div class="row tot"><span>Total</span><span>${money(t.total)}</span></div>
     ${hint}
-    <form class="form" onsubmit="submitOrder(event)">
+    <form class="form" id="order-form" onsubmit="submitOrder(event)">
       <input name="name" placeholder="Tu nombre" required maxlength="80" autocomplete="name" value="${esc(customer.name)}" oninput="customer.name=this.value">
       <input name="phone" placeholder="Tu teléfono (WhatsApp)" required inputmode="tel" maxlength="20" autocomplete="tel" value="${esc(customer.phone)}" oninput="customer.phone=this.value">
       <textarea name="address" rows="2" placeholder="Dirección de entrega (opcional)" maxlength="200" oninput="customer.address=this.value">${esc(customer.address)}</textarea>
       <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       ${error ? `<p class="err">${esc(error)}</p>` : ""}
-      <button class="btn" ${sending?"disabled":""}>${sending?"Enviando…":"Enviar pedido por WhatsApp"}</button>
-    </form>
+    </form>` : "";
+  $("turnstile-box").hidden = !(t.count && turnstileId !== null);
+  $("submit-area").innerHTML = t.count ? `
+    <button class="btn" form="order-form" ${sending?"disabled":""}>${sending?"Enviando…":"Enviar pedido por WhatsApp"}</button>
     <p class="note">Te confirmamos existencias, forma de pago y costo de envío por WhatsApp.</p>` : "";
 }
 
@@ -298,20 +308,39 @@ async function submitOrder(e){
   if (sending) return;
   const form = e.target;
   if (form.website.value) return;
+  const turnstileToken = turnstileId !== null ? turnstile.getResponse(turnstileId) : undefined;
+  if (turnstileId !== null && !turnstileToken) { error = "Espera un momento mientras verificamos que no eres un robot"; renderCart(); return; }
   sending = true; error = ""; renderCart();
   const t = calcTotals();
   let orderNumber = null;
   try {
     const r = await fetch("/api/orders", {method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({...customer, items: Object.entries(cart).map(([id,qty])=>({id,qty}))})});
+      body: JSON.stringify({...customer, turnstileToken, items: Object.entries(cart).map(([id,qty])=>({id,qty}))})});
     const d = await r.json().catch(()=>({}));
     if (r.ok && d.ok) orderNumber = d.order;
-    else if (r.status === 400 || r.status === 409) { error = d.error || "Revisa tu pedido"; sending = false; renderCart(); return; }
+    else if (r.status === 400 || r.status === 409 || r.status === 429) {
+      error = d.error || "Revisa tu pedido"; sending = false; resetTurnstile(); renderCart(); return;
+    }
   } catch(err) { /* no connection to the CRM: the order is still sent by WhatsApp */ }
+  resetTurnstile();
   const link = waLink(orderMessage(t, orderNumber));
   cart = {}; save(); sending = false; renderCart(); toggleCart(false);
   location.href = link;
 }
+
+/* Bot protection: Cloudflare Turnstile, only if /api/config returns a site key. */
+function resetTurnstile(){ if (turnstileId !== null) turnstile.reset(turnstileId); }
+fetch("/api/config").then(r => r.ok ? r.json() : null).then(cfg => {
+  if (!cfg || !cfg.turnstileSiteKey) return;
+  window.onTurnstileLoad = () => {
+    turnstileId = turnstile.render("#turnstile-box", {sitekey: cfg.turnstileSiteKey, theme: "dark", language: "es"});
+    renderCart();
+  };
+  const s = document.createElement("script");
+  s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad";
+  s.async = true;
+  document.head.appendChild(s);
+}).catch(()=>{});
 
 function toggleCart(open){ $("cartRoot").classList.toggle("open", open); }
 document.addEventListener("keydown", e => { if(e.key==="Escape") toggleCart(false); });

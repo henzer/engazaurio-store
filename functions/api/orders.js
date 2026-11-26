@@ -4,6 +4,10 @@ import { PROMO_ACTIVE, WEB_CHANNEL } from "../_catalog.js";
 // Status value used by the CRM for new orders (data value, must match the CRM).
 const STATUS_CREATED = "creado";
 
+// Max web orders per phone in ORDER_WINDOW_MS before new ones are rejected.
+const MAX_ORDERS_PER_PHONE = 3;
+const ORDER_WINDOW_MS = 60 * 60 * 1000;
+
 const clean = (s, max) => (typeof s === "string" ? s.trim().slice(0, max) : "");
 
 // POST /api/orders -> saves the order in the CRM with status "creado".
@@ -23,6 +27,10 @@ export async function onRequestPost({ request, env }) {
 
   const requested = Array.isArray(body.items) ? body.items.slice(0, 10) : [];
   if (!requested.length) return json({ error: "El carrito está vacío" }, 400);
+
+  // Bot check before touching the database (only when Turnstile is configured)
+  if (!(await turnstileOk(env, body.turnstileToken, request.headers.get("CF-Connecting-IP"))))
+    return json({ error: "Verificación fallida, intenta de nuevo" }, 400);
 
   try {
     const db = supabase(env);
@@ -57,6 +65,17 @@ export async function onRequestPost({ request, env }) {
 
     // Customer: reused if that phone already exists
     let [customer] = await db(`customers?select=id&phone=eq.${encodeURIComponent(phone)}&limit=1`);
+
+    // Per-phone limit: too many recent web orders from the same customer
+    if (customer) {
+      const since = new Date(Date.now() - ORDER_WINDOW_MS).toISOString();
+      const recent = await db(
+        `orders?select=id&customer_id=eq.${customer.id}&channel_id=eq.${channel.id}&created_at=gte.${encodeURIComponent(since)}&limit=${MAX_ORDERS_PER_PHONE}`
+      );
+      if (recent.length >= MAX_ORDERS_PER_PHONE)
+        return json({ error: "Ya recibimos tus pedidos, te contactaremos por WhatsApp" }, 429);
+    }
+
     if (!customer)
       [customer] = await db("customers", { method: "POST", body: { name, phone, address: address || null }, prefer: "return=representation" });
 
@@ -86,5 +105,23 @@ export async function onRequestPost({ request, env }) {
   } catch (e) {
     console.error(e);
     return json({ error: "No se pudo guardar el pedido" }, 502);
+  }
+}
+
+// Cloudflare Turnstile verification. Returns true when Turnstile is not configured.
+async function turnstileOk(env, token, ip) {
+  if (!env.TURNSTILE_SECRET_KEY) return true;
+  if (typeof token !== "string" || !token) return false;
+  const form = new FormData();
+  form.append("secret", env.TURNSTILE_SECRET_KEY);
+  form.append("response", token);
+  if (ip) form.append("remoteip", ip);
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
+    const data = await res.json();
+    return data.success === true;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
 }
