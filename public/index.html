@@ -6,7 +6,7 @@
 <title>Engazaurio | Juguetes de construcción a control remoto</title>
 <meta name="description" content="Excavadoras, grúas, cargadores y camiones de volteo a control remoto en Guatemala. Incluyen control, batería recargable, cable USB y desarmador.">
 <meta property="og:title" content="Engazaurio | Black Friday: lleva el segundo a mitad de precio">
-<meta property="og:image" content="img/bf-excavadora-mediana.jpg">
+<meta property="og:image" content="img/bf-medium-excavator.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@ a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 16px}
 .display{font-family:Anton,Impact,sans-serif;text-transform:uppercase;letter-spacing:.5px;line-height:1}
 
-/* barra */
+/* top bar */
 .promo-bar{background:var(--yellow);color:#111;text-align:center;font-weight:800;font-size:.85rem;padding:8px 16px}
 header{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -47,13 +47,13 @@ nav a:hover{color:var(--yellow)}
 .btn.ghost{background:none;color:var(--text);border:2px solid var(--gold);margin-left:10px}
 .fine{font-size:.78rem;color:var(--muted);margin-top:14px}
 
-/* incluye */
+/* included items */
 .incl{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .incl .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:22px 16px;text-align:center}
 .incl div{font-weight:600;font-size:.92rem}
 .incl div::before{content:"✓ ";color:var(--yellow);font-weight:800}
 
-/* catalogo */
+/* catalog */
 section.cat{padding:64px 0}
 .sec-title{font-size:clamp(2rem,5vw,3rem);margin-bottom:6px}
 .sec-title span{color:var(--yellow)}
@@ -70,7 +70,7 @@ section.cat{padding:64px 0}
 .price.tbd{font-family:Montserrat,sans-serif;font-size:.95rem;color:var(--muted);font-weight:600}
 .card .btn{margin-top:auto;text-align:center;padding:12px}
 
-/* como comprar */
+/* how to buy */
 .how{background:var(--bg2);padding:64px 0;border-top:1px solid var(--line)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .step{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--card)}
@@ -81,7 +81,7 @@ section.cat{padding:64px 0}
 footer{padding:36px 0;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
 footer a{color:var(--yellow)}
 
-/* carrito */
+/* cart */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.2s;z-index:40}
 .drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--bg2);border-left:1px solid var(--gold);transform:translateX(100%);transition:.25s;z-index:50;display:flex;flex-direction:column}
 .open .overlay{opacity:1;pointer-events:auto}
@@ -130,7 +130,7 @@ footer a{color:var(--yellow)}
   <div class="wrap">
     <a href="#" class="logo">ENGA<span>ZAURIO</span></a>
     <div>
-      <nav style="display:inline"><a href="#catalogo">Juguetes</a><a href="#como-comprar">Cómo comprar</a></nav>
+      <nav style="display:inline"><a href="#catalog">Juguetes</a><a href="#how-to-buy">Cómo comprar</a></nav>
       <button class="cart-btn" onclick="toggleCart(true)">Carrito<b id="count">0</b></button>
     </div>
   </div>
@@ -142,11 +142,11 @@ footer a{color:var(--yellow)}
       <h1 class="display">Black<br>Friday</h1>
       <h2><em>Lleva el segundo</em><br>a mitad de precio</h2>
       <p>Excavadoras, grúas, cargadores y camiones de volteo a control remoto. Listos para jugar: incluyen control, batería recargable, cable USB y desarmador.</p>
-      <a href="#catalogo" class="btn">Ver juguetes</a>
+      <a href="#catalog" class="btn">Ver juguetes</a>
       <a href="#" class="btn ghost" id="wa-hero">Escríbenos por WhatsApp</a>
       <p class="fine">*Aplica restricciones. El producto a mitad de precio corresponde al de menor precio.</p>
     </div>
-    <img src="img/bf-excavadora-mediana.jpg" alt="Excavadora mediana a control remoto, oferta Black Friday" width="1200" height="1200">
+    <img src="img/bf-medium-excavator.jpg" alt="Excavadora mediana a control remoto, oferta Black Friday" width="1200" height="1200">
   </div>
 </section>
 
@@ -154,7 +154,7 @@ footer a{color:var(--yellow)}
   <div>Control remoto</div><div>Batería recargable</div><div>Cable USB</div><div>Desarmador</div>
 </div></div>
 
-<section class="cat" id="catalogo">
+<section class="cat" id="catalog">
   <div class="wrap">
     <h2 class="display sec-title">Nuestros <span>juguetes</span></h2>
     <p class="sec-sub">Agrega dos o más y el de menor precio te sale a mitad.</p>
@@ -162,7 +162,7 @@ footer a{color:var(--yellow)}
   </div>
 </section>
 
-<section class="how" id="como-comprar">
+<section class="how" id="how-to-buy">
   <div class="wrap">
     <h2 class="display sec-title">¿Cómo <span>comprar</span>?</h2>
     <p class="sec-sub">Rápido y sin crear cuenta.</p>
@@ -190,52 +190,53 @@ footer a{color:var(--yellow)}
 </div>
 
 <script>
-/* ====== CONFIGURA AQUÍ ====== */
-const WHATSAPP = "50258169078";   // número con código de país, sin + ni espacios
-const PROMO_ACTIVA = true;        // Black Friday: 2do a mitad de precio
-/* Respaldo si el CRM no responde. Los precios reales salen de /api/productos */
-let PRODUCTOS = [
-  {id:"excavadora-mediana", nombre:"Excavadora mediana", precio:550,  img:"img/excavadora-mediana.jpg", tag:"Más vendida", stock:null},
-  {id:"excavadora-pequena", nombre:"Excavadora pequeña", precio:300,  img:"img/excavadora-pequena.jpg", stock:null},
-  {id:"camion-volteo",      nombre:"Camión de volteo",   precio:null, img:"img/camion-volteo.jpg", stock:null},
-  {id:"cargador-frontal",   nombre:"Cargador frontal",   precio:null, img:"img/cargador-frontal.jpg", stock:null},
-  {id:"grua",               nombre:"Grúa",               precio:null, img:"img/grua.jpg", stock:null},
+/* ====== SETTINGS ====== */
+const WHATSAPP = "50258169078";   // number with country code, no + or spaces
+const PROMO_ACTIVE = true;        // Black Friday: 2nd item half price
+/* Fallback if the CRM does not respond. Real prices come from /api/products.
+   name and tag are shown to customers, so they stay in Spanish. */
+let PRODUCTS = [
+  {id:"medium-excavator", name:"Excavadora mediana", price:550,  img:"img/medium-excavator.jpg", tag:"Más vendida", stock:null},
+  {id:"small-excavator",  name:"Excavadora pequeña", price:300,  img:"img/small-excavator.jpg", stock:null},
+  {id:"dump-truck",       name:"Camión de volteo",   price:null, img:"img/dump-truck.jpg", stock:null},
+  {id:"front-loader",     name:"Cargador frontal",   price:null, img:"img/front-loader.jpg", stock:null},
+  {id:"crane",            name:"Grúa",               price:null, img:"img/crane.jpg", stock:null},
 ];
-/* ============================ */
+/* ====================== */
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const q = n => "Q" + n.toLocaleString("es-GT",{minimumFractionDigits:n%1?2:0, maximumFractionDigits:2});
-const find = id => PRODUCTOS.find(x => x.id === id);
-const agotado = p => p.stock !== null && p.stock <= 0;
+const money = n => "Q" + n.toLocaleString("es-GT",{minimumFractionDigits:n%1?2:0, maximumFractionDigits:2});
+const find = id => PRODUCTS.find(x => x.id === id);
+const soldOut = p => p.stock !== null && p.stock <= 0;
 let cart = {};
 try { cart = JSON.parse(localStorage.getItem("engazaurio-cart")) || {}; } catch(e) {}
 const save = () => { try { localStorage.setItem("engazaurio-cart", JSON.stringify(cart)); } catch(e) {} };
 const waLink = txt => "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(txt);
-let datos = {nombre:"", telefono:"", direccion:""};
-let enviando = false, error = "";
+let customer = {name:"", phone:"", address:""};
+let sending = false, error = "";
 
 function renderGrid(){
-  $("grid").innerHTML = PRODUCTOS.map(p => {
-    let accion;
-    if (!p.precio) accion = `<a class="btn" target="_blank" rel="noopener" href="${waLink("Hola Engazaurio, ¿qué precio tiene el " + p.nombre + "?")}">Consultar por WhatsApp</a>`;
-    else if (agotado(p)) accion = `<button class="btn" disabled>Agotado</button>`;
-    else accion = `<button class="btn" onclick="add('${p.id}')">Agregar al carrito</button>`;
+  $("grid").innerHTML = PRODUCTS.map(p => {
+    let action;
+    if (!p.price) action = `<a class="btn" target="_blank" rel="noopener" href="${waLink("Hola Engazaurio, ¿qué precio tiene el " + p.name + "?")}">Consultar por WhatsApp</a>`;
+    else if (soldOut(p)) action = `<button class="btn" disabled>Agotado</button>`;
+    else action = `<button class="btn" onclick="addToCart('${p.id}')">Agregar al carrito</button>`;
     return `
     <article class="card">
-      <div class="ph"><img src="${p.img}" alt="${esc(p.nombre)} a control remoto con accesorios" loading="lazy" width="900" height="1200">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:""}</div>
+      <div class="ph"><img src="${p.img}" alt="${esc(p.name)} a control remoto con accesorios" loading="lazy" width="900" height="1200">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:""}</div>
       <div class="body">
-        <h3>${esc(p.nombre)}</h3>
-        ${p.precio ? `<div class="price">${q(p.precio)}</div>` : `<div class="price tbd">Consulta el precio</div>`}
-        ${p.precio && p.stock > 0 && p.stock <= 3 ? `<div class="stock">¡Quedan ${p.stock}!</div>` : ""}
-        ${accion}
+        <h3>${esc(p.name)}</h3>
+        ${p.price ? `<div class="price">${money(p.price)}</div>` : `<div class="price tbd">Consulta el precio</div>`}
+        ${p.price && p.stock > 0 && p.stock <= 3 ? `<div class="stock">¡Quedan ${p.stock}!</div>` : ""}
+        ${action}
       </div>
     </article>`;
   }).join("");
 }
 
-function add(id){ cart[id]=(cart[id]||0)+1; save(); renderCart(); toggleCart(true); }
-function chg(id,d){
+function addToCart(id){ cart[id]=(cart[id]||0)+1; save(); renderCart(); toggleCart(true); }
+function changeQty(id,d){
   const p = find(id);
   cart[id]=(cart[id]||0)+d;
   if (p && p.stock !== null && cart[id] > p.stock) cart[id] = p.stock;
@@ -243,71 +244,72 @@ function chg(id,d){
   save(); renderCart();
 }
 
-/* Oferta: unidades de mayor a menor precio, en parejas; la más barata de cada pareja va a mitad. */
-function calc(){
+/* Promo: units from highest to lowest price, in pairs; the cheaper one of each pair is half price. */
+function calcTotals(){
   const units = [];
-  for (const id in cart){ const p = find(id); if(!p||!p.precio) continue; for(let i=0;i<cart[id];i++) units.push(p.precio); }
+  for (const id in cart){ const p = find(id); if(!p||!p.price) continue; for(let i=0;i<cart[id];i++) units.push(p.price); }
   units.sort((a,b)=>b-a);
-  const sub = units.reduce((s,x)=>s+x,0);
-  let desc = 0;
-  if (PROMO_ACTIVA) for (let i=1;i<units.length;i+=2) desc += units[i]/2;
-  return {n:units.length, sub, desc, total:sub-desc};
+  const subtotal = units.reduce((s,x)=>s+x,0);
+  let discount = 0;
+  if (PROMO_ACTIVE) for (let i=1;i<units.length;i+=2) discount += units[i]/2;
+  return {count:units.length, subtotal, discount, total:subtotal-discount};
 }
 
 function renderCart(){
-  for (const id in cart) if (!find(id) || !find(id).precio) delete cart[id];
-  const c = calc();
-  $("count").textContent = c.n;
+  for (const id in cart) if (!find(id) || !find(id).price) delete cart[id];
+  const t = calcTotals();
+  $("count").textContent = t.count;
   const ids = Object.keys(cart);
   $("items").innerHTML = ids.length ? ids.map(id=>{
     const p = find(id);
-    return `<div class="item"><img src="${p.img}" alt=""><div><div class="nm">${esc(p.nombre)}</div><div class="pp">${q(p.precio)} c/u</div></div>
-      <div class="qty"><button onclick="chg('${id}',-1)" aria-label="Quitar uno">−</button><span>${cart[id]}</span><button onclick="chg('${id}',1)" aria-label="Agregar uno">+</button></div></div>`;
+    return `<div class="item"><img src="${p.img}" alt=""><div><div class="nm">${esc(p.name)}</div><div class="pp">${money(p.price)} c/u</div></div>
+      <div class="qty"><button onclick="changeQty('${id}',-1)" aria-label="Quitar uno">−</button><span>${cart[id]}</span><button onclick="changeQty('${id}',1)" aria-label="Agregar uno">+</button></div></div>`;
   }).join("") : `<p class="empty">Tu carrito está vacío.</p>`;
-  const hint = PROMO_ACTIVA && c.n===1 ? `<p class="note">Agrega otro juguete y el de menor precio te sale a mitad 🎁</p>` : "";
-  $("totals").innerHTML = c.n ? `
-    <div class="row"><span>Subtotal</span><span>${q(c.sub)}</span></div>
-    ${c.desc ? `<div class="row disc"><span>Black Friday (2do a mitad)</span><span>−${q(c.desc)}</span></div>`:""}
-    <div class="row tot"><span>Total</span><span>${q(c.total)}</span></div>
+  const hint = PROMO_ACTIVE && t.count===1 ? `<p class="note">Agrega otro juguete y el de menor precio te sale a mitad 🎁</p>` : "";
+  $("totals").innerHTML = t.count ? `
+    <div class="row"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+    ${t.discount ? `<div class="row disc"><span>Black Friday (2do a mitad)</span><span>−${money(t.discount)}</span></div>`:""}
+    <div class="row tot"><span>Total</span><span>${money(t.total)}</span></div>
     ${hint}
-    <form class="form" onsubmit="enviar(event)">
-      <input name="nombre" placeholder="Tu nombre" required maxlength="80" autocomplete="name" value="${esc(datos.nombre)}" oninput="datos.nombre=this.value">
-      <input name="telefono" placeholder="Tu teléfono (WhatsApp)" required inputmode="tel" maxlength="20" autocomplete="tel" value="${esc(datos.telefono)}" oninput="datos.telefono=this.value">
-      <textarea name="direccion" rows="2" placeholder="Dirección de entrega (opcional)" maxlength="200" oninput="datos.direccion=this.value">${esc(datos.direccion)}</textarea>
+    <form class="form" onsubmit="submitOrder(event)">
+      <input name="name" placeholder="Tu nombre" required maxlength="80" autocomplete="name" value="${esc(customer.name)}" oninput="customer.name=this.value">
+      <input name="phone" placeholder="Tu teléfono (WhatsApp)" required inputmode="tel" maxlength="20" autocomplete="tel" value="${esc(customer.phone)}" oninput="customer.phone=this.value">
+      <textarea name="address" rows="2" placeholder="Dirección de entrega (opcional)" maxlength="200" oninput="customer.address=this.value">${esc(customer.address)}</textarea>
       <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       ${error ? `<p class="err">${esc(error)}</p>` : ""}
-      <button class="btn" ${enviando?"disabled":""}>${enviando?"Enviando…":"Enviar pedido por WhatsApp"}</button>
+      <button class="btn" ${sending?"disabled":""}>${sending?"Enviando…":"Enviar pedido por WhatsApp"}</button>
     </form>
     <p class="note">Te confirmamos existencias, forma de pago y costo de envío por WhatsApp.</p>` : "";
 }
 
-function mensaje(c, num){
-  let t = "Hola Engazaurio, quiero hacer este pedido" + (num ? " (#" + num + ")" : "") + ":\n";
-  for (const id in cart){ const p = find(id); t += `• ${cart[id]} x ${p.nombre} (${q(p.precio)})\n`; }
-  t += `\nSubtotal: ${q(c.sub)}`;
-  if (c.desc) t += `\nDescuento Black Friday: -${q(c.desc)}`;
-  t += `\nTotal: ${q(c.total)}\n\nNombre: ${datos.nombre}`;
-  if (datos.direccion) t += `\nDirección: ${datos.direccion}`;
-  return t;
+/* WhatsApp message sent by the customer (Spanish, customer-facing). */
+function orderMessage(t, orderNumber){
+  let msg = "Hola Engazaurio, quiero hacer este pedido" + (orderNumber ? " (#" + orderNumber + ")" : "") + ":\n";
+  for (const id in cart){ const p = find(id); msg += `• ${cart[id]} x ${p.name} (${money(p.price)})\n`; }
+  msg += `\nSubtotal: ${money(t.subtotal)}`;
+  if (t.discount) msg += `\nDescuento Black Friday: -${money(t.discount)}`;
+  msg += `\nTotal: ${money(t.total)}\n\nNombre: ${customer.name}`;
+  if (customer.address) msg += `\nDirección: ${customer.address}`;
+  return msg;
 }
 
-async function enviar(e){
+async function submitOrder(e){
   e.preventDefault();
-  if (enviando) return;
-  const f = e.target;
-  if (f.website.value) return;
-  enviando = true; error = ""; renderCart();
-  const c = calc();
-  let num = null;
+  if (sending) return;
+  const form = e.target;
+  if (form.website.value) return;
+  sending = true; error = ""; renderCart();
+  const t = calcTotals();
+  let orderNumber = null;
   try {
-    const r = await fetch("/api/pedido", {method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({...datos, items: Object.entries(cart).map(([id,qty])=>({id,qty}))})});
+    const r = await fetch("/api/orders", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({...customer, items: Object.entries(cart).map(([id,qty])=>({id,qty}))})});
     const d = await r.json().catch(()=>({}));
-    if (r.ok && d.ok) num = d.pedido;
-    else if (r.status === 400 || r.status === 409) { error = d.error || "Revisa tu pedido"; enviando = false; renderCart(); return; }
-  } catch(err) { /* sin conexión con el CRM: igual se manda por WhatsApp */ }
-  const link = waLink(mensaje(c, num));
-  cart = {}; save(); enviando = false; renderCart(); toggleCart(false);
+    if (r.ok && d.ok) orderNumber = d.order;
+    else if (r.status === 400 || r.status === 409) { error = d.error || "Revisa tu pedido"; sending = false; renderCart(); return; }
+  } catch(err) { /* no connection to the CRM: the order is still sent by WhatsApp */ }
+  const link = waLink(orderMessage(t, orderNumber));
+  cart = {}; save(); sending = false; renderCart(); toggleCart(false);
   location.href = link;
 }
 
@@ -319,8 +321,8 @@ $("wa-hero").target = "_blank";
 $("yr").textContent = new Date().getFullYear();
 renderGrid(); renderCart();
 
-fetch("/api/productos").then(r => r.ok ? r.json() : null).then(lista => {
-  if (Array.isArray(lista) && lista.length) { PRODUCTOS = lista; renderGrid(); renderCart(); }
+fetch("/api/products").then(r => r.ok ? r.json() : null).then(list => {
+  if (Array.isArray(list) && list.length) { PRODUCTS = list; renderGrid(); renderCart(); }
 }).catch(()=>{});
 </script>
 </body>

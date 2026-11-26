@@ -3,24 +3,24 @@
 Tienda de engazaurio.com. Página estática en Cloudflare Pages, con dos funciones
 que se conectan al CRM (Supabase de engazaurio-app):
 
-- `GET /api/productos`: precio y stock reales desde la tabla `products`.
-- `POST /api/pedido`: guarda el pedido como orden "creado", canal "Tienda web",
+- `GET /api/products`: precio y stock reales desde la tabla `products`.
+- `POST /api/orders`: guarda el pedido como orden "creado", canal "Tienda web",
   crea o reutiliza el cliente por teléfono y descuenta el stock. Después el cliente
   envía el pedido por WhatsApp con el número de orden.
 
 Oferta Black Friday (2do a mitad de precio, el de menor precio) se calcula en la
-página y se vuelve a calcular en el servidor. Se apaga con `PROMO_ACTIVA = false`
-en `functions/_catalogo.js` y en `public/index.html`.
+página y se vuelve a calcular en el servidor. Se apaga con `PROMO_ACTIVE = false`
+en `functions/_catalog.js` y en `public/index.html`.
 
 ## Estructura
 - `public/`: la página (index.html e imágenes).
-- `functions/`: funciones de Cloudflare. `_catalogo.js` lista los productos de la tienda.
-- `supabase/seguridad.sql`: reglas para cerrar el acceso público a la base de datos.
+- `functions/`: funciones de Cloudflare. `_catalog.js` lista los productos de la tienda.
+- `supabase/security.sql`: reglas para cerrar el acceso público a la base de datos.
 
 ## Puesta en marcha (una sola vez)
 
 ### 1. Supabase
-1. SQL Editor: pegar `supabase/seguridad.sql` y Run.
+1. SQL Editor: pegar `supabase/security.sql` y Run.
 2. Authentication > Sign In / Providers: desactivar "Allow new users to sign up".
 3. Project Settings > API: copiar la URL del proyecto y la clave `service_role` (secreta).
 
@@ -40,7 +40,12 @@ en `functions/_catalogo.js` y en `public/index.html`.
    Custom domains > agregar `engazaurio.com` y `www.engazaurio.com`.
 
 ## Productos
-El precio y el stock vienen del CRM. Cada producto de `functions/_catalogo.js` se
-busca por `codigo` (si se llena) o por nombre. Para agregar un juguete: subir su
-foto a `public/img/`, agregarlo a `_catalogo.js` y a la lista de respaldo en
+El precio y el stock vienen del CRM. Cada producto de `functions/_catalog.js` se
+busca por `code` (si se llena) o por nombre. Para agregar un juguete: subir su
+foto a `public/img/` (nombre del archivo en inglés), agregarlo a `_catalog.js` y a la lista de respaldo en
 `public/index.html`.
+
+## Convención
+Todo el código va en inglés: nombres de archivos, variables, funciones, ids y
+comentarios. Solo el texto que ve el cliente (y los valores que deben coincidir
+con el CRM, como el estado "creado" y el canal "Tienda web") va en español.
