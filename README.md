@@ -4,9 +4,11 @@ Tienda de engazaurio.com. Página estática en Cloudflare Pages, con dos funcion
 que se conectan al CRM (Supabase de engazaurio-app):
 
 - `GET /api/products`: precio y stock reales desde la tabla `products`.
-- `POST /api/orders`: guarda el pedido como orden "creado", canal "Tienda web",
-  crea o reutiliza el cliente por teléfono y descuenta el stock. Después el cliente
-  envía el pedido por WhatsApp con el número de orden.
+- `POST /api/orders`: guarda el pedido como orden "pendiente", canal "Tienda web",
+  y crea o reutiliza el cliente por teléfono. No descuenta stock (solo revisa que
+  alcance). Después el cliente envía el pedido por WhatsApp con el número de orden.
+  Al hablar con el cliente, el administrador le da "Confirmar" en Ventas del CRM:
+  la orden pasa a "creado" y ahí se descuenta el stock.
 
 Oferta Black Friday (2do a mitad de precio, el de menor precio) se calcula en la
 página y se vuelve a calcular en el servidor. Se apaga con `PROMO_ACTIVE = false`
@@ -66,4 +68,4 @@ foto a `public/img/` (nombre del archivo en inglés), agregarlo a `_catalog.js` 
 ## Convención
 Todo el código va en inglés: nombres de archivos, variables, funciones, ids y
 comentarios. Solo el texto que ve el cliente (y los valores que deben coincidir
-con el CRM, como el estado "creado" y el canal "Tienda web") va en español.
+con el CRM, como el estado "pendiente" y el canal "Tienda web") va en español.

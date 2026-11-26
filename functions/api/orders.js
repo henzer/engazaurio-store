@@ -1,8 +1,9 @@
 import { catalogWithCRM, supabase, json } from "../_supabase.js";
 import { PROMO_ACTIVE, WEB_CHANNEL } from "../_catalog.js";
 
-// Status value used by the CRM for new orders (data value, must match the CRM).
-const STATUS_CREATED = "creado";
+// Status for new web orders (data value, must match the CRM). Pending orders
+// reserve no stock; the admin confirms them in the CRM, which deducts stock.
+const STATUS_PENDING = "pendiente";
 
 // Max web orders per phone in ORDER_WINDOW_MS before new ones are rejected.
 const MAX_ORDERS_PER_PHONE = 3;
@@ -10,7 +11,7 @@ const ORDER_WINDOW_MS = 60 * 60 * 1000;
 
 const clean = (s, max) => (typeof s === "string" ? s.trim().slice(0, max) : "");
 
-// POST /api/orders -> saves the order in the CRM with status "creado".
+// POST /api/orders -> saves the order in the CRM with status "pendiente" (stock is not deducted).
 // Prices and the discount are recalculated here; what the browser sends is not trusted.
 // Error messages are shown to customers, so they stay in Spanish.
 export async function onRequestPost({ request, env }) {
@@ -82,7 +83,7 @@ export async function onRequestPost({ request, env }) {
     // Order + items (discount as a percentage, same as the CRM)
     const [order] = await db("orders", {
       method: "POST",
-      body: { customer_id: customer.id, channel_id: channel.id, status: STATUS_CREATED },
+      body: { customer_id: customer.id, channel_id: channel.id, status: STATUS_PENDING },
       prefer: "return=representation",
     });
     await db("order_items", {
@@ -94,12 +95,6 @@ export async function onRequestPost({ request, env }) {
         discount: l.discount ? Math.round((l.discount / (l.product.price * l.qty)) * 10000) / 100 : 0,
       })),
     });
-
-    // Decrease stock, same as creating a sale in the CRM
-    for (const l of lines.values()) {
-      if (l.product.stock === null) continue;
-      await db(`products?id=eq.${l.product.crmId}`, { method: "PATCH", body: { stock: l.product.stock - l.qty } });
-    }
 
     return json({ ok: true, order: order.id.slice(0, 8).toUpperCase(), subtotal, discount, total: subtotal - discount });
   } catch (e) {
