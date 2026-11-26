@@ -22,14 +22,14 @@ en `functions/_catalog.js` y en `public/index.html`.
 ### 1. Supabase
 1. SQL Editor: pegar `supabase/security.sql` y Run.
 2. Authentication > Sign In / Providers: desactivar "Allow new users to sign up".
-3. Project Settings > API: copiar la URL del proyecto y la clave `service_role` (secreta).
+3. Project Settings > API Keys: copiar la clave secreta (`sb_secret_...`, o la `service_role` en "Legacy API keys"). La URL es `https://<project-id>.supabase.co`.
 
 ### 2. Cloudflare Pages
 1. Workers & Pages > Create > Pages > Connect to Git > `henzer/engazaurio-store`.
 2. Framework: None. Build command: vacío. Build output directory: `public`.
 3. Settings > Variables and Secrets (Production):
    - `SUPABASE_URL` = URL del proyecto
-   - `SUPABASE_SERVICE_ROLE_KEY` = clave service_role (tipo "Secret")
+   - `SUPABASE_SERVICE_ROLE_KEY` = clave secreta `sb_secret_...` o `service_role` (tipo "Secret")
 4. Volver a publicar (Deployments > Retry) para que tome las variables.
 
 ### 3. Dominio (GoDaddy)

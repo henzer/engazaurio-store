@@ -5,11 +5,11 @@ const normalize = (s) => (s || "").toString().normalize("NFD").replace(/[\u0300-
 export function supabase(env) {
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) throw new Error("Missing SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY");
   const base = env.SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/";
-  const headers = {
-    apikey: env.SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: "Bearer " + env.SUPABASE_SERVICE_ROLE_KEY,
-    "Content-Type": "application/json",
-  };
+  const key = env.SUPABASE_SERVICE_ROLE_KEY;
+  const headers = { apikey: key, "Content-Type": "application/json" };
+  // Legacy keys are JWTs and also go in Authorization. New sb_secret_ keys are
+  // not JWTs, so they are sent only in the apikey header.
+  if (key.startsWith("eyJ")) headers.Authorization = "Bearer " + key;
   return async function request(path, { method = "GET", body, prefer } = {}) {
     const res = await fetch(base + path, {
       method,
